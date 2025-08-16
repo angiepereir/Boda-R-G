@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Nuestra Boda! – Romina & German</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <!-- NAV -->
+  <nav class="nav" aria-label="principal">
+    <div class="nav-inner container">
+      <div class="brand"><span class="brand-mark" aria-hidden></span> Laura & Diego</div>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="menu">☰</button>
+      <div id="menu" class="menu" role="menubar">
+        <a role="menuitem" href="#inicio">Inicio</a>
+        <a role="menuitem" href="#galeria">Galería</a>
+        <a role="menuitem" href="#subir">Subir fotos</a>
+        <a role="menuitem" href="#menu-cena">Menú</a>
+        <a role="menuitem" href="#qr">QR</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- INICIO -->
+  <header id="inicio" class="hero" role="banner">
+    <div class="hero-box">
+      <h1>¡Nos casamos!</h1>
+      <p>Laura & Diego · 18 de Octubre de 2025 · Finca La Encina, Madrid</p>
+      <span class="badge">Dress code: elegante con toque burdeos</span>
+    </div>
+  </header>
+
+  <!-- GALERÍA -->
+  <section id="galeria" aria-labelledby="galeria-title">
+    <div class="container">
+      <h2 id="galeria-title">Galería</h2>
+      <div class="card"><div class="card-inner">
+        <p class="muted">Toca una foto para ampliarla.</p>
+        <div id="gallery" class="grid" aria-live="polite"></div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- SUBIR -->
+  <section id="subir" aria-labelledby="subir-title">
+    <div class="container">
+      <h2 id="subir-title">Subir fotos (invitados)</h2>
+      <div class="card"><div class="card-inner">
+        <div class="upload">
+          <div id="drop" class="drop" tabindex="0" aria-label="Zona para arrastrar y soltar imágenes">
+            Arrastra tus fotos aquí o <label for="file" class="btn" style="cursor:pointer">selecciónalas</label>
+            <input id="file" type="file" accept="image/*" multiple hidden />
+          </div>
+          <div class="actions">
+            <button id="clear" class="btn secondary">Borrar fotos de este dispositivo</button>
+            <label class="btn secondary" for="camera">Hacer foto</label>
+            <input id="camera" type="file" accept="image/*" capture="environment" hidden />
+          </div>
+          <p class="muted">Esta versión guarda las fotos en <strong>tu móvil</strong> usando almacenamiento local. Para compartirlas entre todos, más adelante podemos conectar Firebase o un formulario de Drive.</p>
+        </div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- MENÚ -->
+  <section id="menu-cena" aria-labelledby="menu-title">
+    <div class="container">
+      <h2 id="menu-title">Menú de la cena</h2>
+      <div class="card"><div class="card-inner">
+        <div class="menu-grid">
+          <div class="menu-item">
+            <h3>Entrantes</h3>
+            <ul>
+              <li>Jamón ibérico y selección de quesos</li>
+              <li>Cremoso de burrata con pesto y tomate confitado</li>
+              <li>Mini croquetas de setas</li>
+            </ul>
+          </div>
+          <div class="menu-item">
+            <h3>Principal</h3>
+            <ul>
+              <li>Lomo bajo de vaca madurada con parmentier trufado</li>
+              <li>Opción vegetariana: risotto de boletus al parmesano</li>
+            </ul>
+          </div>
+          <div class="menu-item">
+            <h3>Postre</h3>
+            <ul>
+              <li>Tarta de chocolate y frutos rojos</li>
+              <li>Café e infusiones</li>
+            </ul>
+          </div>
+          <div class="menu-item">
+            <h3>Bebidas</h3>
+            <ul>
+              <li>Vino tinto D.O. Rioja</li>
+              <li>Cava brut nature</li>
+              <li>Refrescos y agua</li>
+            </ul>
+          </div>
+        </div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- QR -->
+  <section id="qr" aria-labelledby="qr-title">
+    <div class="container">
+      <h2 id="qr-title">QR para la invitación</h2>
+      <div class="card"><div class="card-inner">
+        <div class="qr-box">
+          <p class="muted">Este QR apunta a <span id="qr-url"></span>.</p>
+          <div id="qrcode"></div>
+          <div class="actions">
+            <button id="btn-copy" class="btn">Copiar enlace</button>
+            <button id="btn-download" class="btn secondary">Descargar QR (PNG)</button>
+          </div>
+          <p class="muted" id="qr-fallback" hidden>Si no ves el QR, abre este enlace o haz una captura.</p>
+        </div>
+      </div></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© 2025 Laura & Diego · <a href="#inicio">Volver arriba</a></p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="/index.js"></script>
+</body>
+</html>
