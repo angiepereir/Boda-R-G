@@ -11,7 +11,7 @@
     <!-- NAV -->
   <nav class="nav" aria-label="principal">
     <div class="nav-inner container">
-      <div class="brand"><span class="brand-mark" aria-hidden></span> Romina & German</div>
+      <div class="brand"><span class="brand-mark" aria-hidden></span> Romina & Germán</div>
       <button class="nav-toggle" aria-expanded="false" aria-controls="menu">☰</button>
       <div id="menu" class="menu" role="menubar">
         <a role="menuitem" href="#inicio">Inicio</a>
@@ -27,7 +27,7 @@
   <header id="inicio" class="hero" role="banner">
     <div class="hero-box">
       <h1>¡Nos casamos!</h1>
-      <p>Romina & German · 20 de Diciembre de 2025 · Finca La Encina, Caacupe</p>
+      <p>Romina & Germán · 18 de Octubre de 2025 · Finca La Encina, Madrid</p>
       <span class="badge">Dress code: elegante con toque burdeos</span>
     </div>
   </header>
@@ -37,7 +37,7 @@
     <div class="container">
       <h2 id="galeria-title">Galería</h2>
       <div class="card"><div class="card-inner">
-        <p class="muted">Toca una foto para ampliarla.</p>
+        <p class="muted" id="gallery-hint">Toca una foto para ampliarla.</p>
         <div id="gallery" class="grid" aria-live="polite"></div>
       </div></div>
     </div>
@@ -58,7 +58,7 @@
             <label class="btn secondary" for="camera">Hacer foto</label>
             <input id="camera" type="file" accept="image/*" capture="environment" hidden />
           </div>
-          <p class="muted">Esta versión guarda las fotos en <strong>tu móvil</strong> usando almacenamiento local. Para compartirlas entre todos, más adelante podemos conectar Firebase o un formulario de Drive.</p>
+          <p class="muted" id="upload-note">Las fotos se compartirán para que todos las vean en la galería.</p>
         </div>
       </div></div>
     </div>
@@ -125,11 +125,21 @@
 
   <footer>
     <div class="container">
-      <p>© 2025 Romina & German · <a href="#inicio">Volver arriba</a></p>
+      <p>© 2025 Romina & Germán · <a href="#inicio">Volver arriba</a></p>
     </div>
   </footer>
 
+   <!-- QR lib -->
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-    <script src="/index.js"></script>
+
+  <!-- Firebase (compat) -->
+  <script defer src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+
+  <script src="index.js"></script>
+
+
 </body>
 </html>
