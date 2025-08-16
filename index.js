@@ -188,25 +188,63 @@ const qrFallback = document.getElementById('qr-fallback');
 const btnCopy = document.getElementById('btn-copy');
 const btnDownload = document.getElementById('btn-download');
 
-const pageUrl = window.location.href;
-if (qrUrlSpan) qrUrlSpan.textContent = pageUrl;
+// URL pública fija (cámbiala si usas dominio propio)
+const CANONICAL_URL = 'https://angiepereir.github.io/Boda-R-G/';
+const pageUrl = CANONICAL_URL;
+if (qrUrlSpan) { qrUrlSpan.textContent = pageUrl; qrUrlSpan.style.wordBreak = 'break-all'; }
 
-function renderQR(){
+// 1) Intentar usar la librería de QR
+async function ensureQRCodeLib() {
+  if (window.QRCode && typeof QRCode.toCanvas === 'function') return true;
+  // Por si el script aún no cargó, intentar de nuevo brevemente
+  await new Promise(r => setTimeout(r, 50));
+  return !!(window.QRCode && typeof QRCode.toCanvas === 'function');
+}
+
+// 2) Fallback: servicio de QR si la librería falla
+function getFallbackQRUrl(size) {
+  const data = encodeURIComponent(pageUrl);
+  // Servicio público de PNG
+  return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&margin=2&data=${data}`;
+}
+
+async function renderQR(size = 240) {
   qrDiv.innerHTML = '';
-  if (window.QRCode) {
-    QRCode.toCanvas(pageUrl, { width: 240, margin: 1, color: { dark: '#000000', light: '#ffffff' } }, (err, canvas) => {
-      if (err) { qrFallback.hidden = false; return; }
-      const wrap = document.createElement('div');
-      wrap.style.padding = '10px';
-      wrap.style.background = 'linear-gradient(135deg, var(--burgundy), #540016)';
-      wrap.style.borderRadius = '16px';
-      wrap.style.display = 'inline-block';
-      wrap.appendChild(canvas);
-      qrDiv.appendChild(wrap);
-    });
+  if (await ensureQRCodeLib()) {
+    QRCode.toCanvas(
+      pageUrl,
+      { width: size, margin: 2, color: { dark: '#000000', light: '#ffffff' } },
+      (err, canvas) => {
+        if (err) { showFallback(size); return; }
+        const wrap = document.createElement('div');
+        wrap.style.padding = '10px';
+        wrap.style.background = 'linear-gradient(135deg, var(--burgundy), #540016)';
+        wrap.style.borderRadius = '16px';
+        wrap.style.display = 'inline-block';
+        wrap.appendChild(canvas);
+        qrDiv.appendChild(wrap);
+      }
+    );
   } else {
-    qrFallback.hidden = false;
+    showFallback(size);
   }
+}
+
+function showFallback(size){
+  const img = document.createElement('img');
+  img.alt = 'QR';
+  img.width = size;
+  img.height = size;
+  img.src = getFallbackQRUrl(size);
+  const wrap = document.createElement('div');
+  wrap.style.padding = '10px';
+  wrap.style.background = 'linear-gradient(135deg, var(--burgundy), #540016)';
+  wrap.style.borderRadius = '16px';
+  wrap.style.display = 'inline-block';
+  wrap.appendChild(img);
+  qrDiv.innerHTML = '';
+  qrDiv.appendChild(wrap);
+  qrFallback.hidden = false; // mostramos nota de fallback
 }
 
 // Generar QR cuando la sección sea visible
@@ -216,22 +254,40 @@ const io = new IntersectionObserver((entries) => {
 io.observe(document.getElementById('qr'));
 
 btnCopy.addEventListener('click', async () => {
-  try { await navigator.clipboard.writeText(pageUrl); btnCopy.textContent = '¡Copiado!'; setTimeout(() => btnCopy.textContent = 'Copiar enlace', 1200); }
-  catch { alert('No se pudo copiar.'); }
+  try { await navigator.clipboard.writeText(pageUrl);
+        btnCopy.textContent = '¡Copiado!';
+        setTimeout(() => btnCopy.textContent = 'Copiar enlace', 1200);
+  } catch { alert('No se pudo copiar.'); }
 });
 
-btnDownload.addEventListener('click', () => {
-  const canvas = qrDiv.querySelector('canvas');
-  if (!canvas) {
-    renderQR();
-    setTimeout(() => {
-      const c = qrDiv.querySelector('canvas');
-      if (!c) { alert('No se pudo generar el QR.'); return; }
-      const a = document.createElement('a');
-      a.href = c.toDataURL('image/png'); a.download = 'qr-boda.png'; a.click();
-    }, 200);
-    return;
+btnDownload.addEventListener('click', async () => {
+  // Siempre damos un PNG grande (1024px). Con librería, lo generamos; si no, usamos fallback.
+  if (await ensureQRCodeLib()) {
+    QRCode.toCanvas(
+      pageUrl,
+      { width: 1024, margin: 2, color: { dark: '#000000', light: '#ffffff' } },
+      (err, canvas) => {
+        if (err) { downloadFallback(); return; }
+        const png = canvas.toDataURL('image/png');
+        const isiOS = /iPad|iPhone|iPod/i.test(navigator.userAgent);
+        if (isiOS) window.open(png, '_blank');
+        else { const a = document.createElement('a'); a.href = png; a.download = 'qr-boda.png'; a.click(); }
+      }
+    );
+  } else {
+    downloadFallback();
   }
-  const a = document.createElement('a');
-  a.href = canvas.toDataURL('image/png'); a.download = 'qr-boda.png'; a.click();
 });
+
+function downloadFallback(){
+  // Abrimos el PNG del servicio en nueva pestaña (descarga manual si el navegador no permite descarga directa cross-origin)
+  const url = getFallbackQRUrl(1024);
+  const isiOS = /iPad|iPhone|iPod/i.test(navigator.userAgent);
+  if (isiOS) window.open(url, '_blank');
+  else {
+    const a = document.createElement('a');
+    a.href = url; a.download = 'qr-boda.png';
+    // algunos navegadores ignoran download en cross-origin; si pasa, se abrirá en nueva pestaña
+    a.click();
+  }
+}
