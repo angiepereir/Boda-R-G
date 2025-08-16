@@ -15,7 +15,7 @@ const FIREBASE_CONFIG = {
 
 // ====== Cloudinary (plan gratis) ======
 const CLOUDINARY_CLOUD_NAME = "dauzwfc8z";          // <-- tu cloud name
-const CLOUDINARY_UPLOAD_PRESET = "Boda R-G"; // <-- pon aquí tu preset UNSIGNED
+const CLOUDINARY_UPLOAD_PRESET = "bodar-g"; // <-- pon aquí tu preset UNSIGNED
 const CLOUDINARY_FOLDER = "wedding-photos";          // opcional (organiza en carpeta)
 const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
 
