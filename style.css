@@ -172,7 +172,7 @@ a {
   place-items: center;
   padding: var(--space);
   background: 
-    linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,245,241,.9)),
+    /*linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,245,241,.9)),*/
     url('https://cdn0.matrimonios.cl/article-vendor/3506/original/1280/jpg/ideas-decoracion-bodas-tendencias-arco-flores-ceremonias-al-aire-libre_8_163506-166559376933995.jpeg') center/cover no-repeat;
   position: relative;
 }
@@ -186,7 +186,7 @@ a {
 }
 
 .hero-box {
-  
+  backdrop-filter: blur(12px);
   padding: clamp(24px, 5vw, 40px);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
